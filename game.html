@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yale Clinical Trials - Virtual Escape Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter as a professional default */
+            background-color: #f0f4f8; /* Light grayish-blue background */
+        }
+        .yale-blue { background-color: #00356b; }
+        .yale-blue-text { color: #00356b; }
+        .yale-gray { background-color: #8a8a8a; }
+        .yale-gray-text { color: #4a4a4a; }
+        .puzzle-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .hidden { display: none; opacity: 0; }
+        .visible { display: block; opacity: 1; }
+        .question-card {
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .option-button:hover {
+            background-color: #e2e8f0;
+        }
+        .option-button.correct {
+            background-color: #c6f6d5; /* Green-200 */
+            border-color: #38a169; /* Green-600 */
+        }
+        .option-button.incorrect {
+            background-color: #fed7d7; /* Red-200 */
+            border-color: #c53030; /* Red-600 */
+        }
+        .feedback-message {
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        .feedback-correct {
+            background-color: #c6f6d5;
+            color: #2f855a;
+        }
+        .feedback-incorrect {
+            background-color: #fed7d7;
+            color: #9b2c2c;
+        }
+        .green-light {
+            width: 20px;
+            height: 20px;
+            background-color: #9ca3af; /* Gray-400 */
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            transition: background-color 0.3s;
+        }
+        .green-light.on {
+            background-color: #4ade80; /* Green-400 */
+        }
+        .tile {
+            border: 2px solid #00356b; /* Yale Blue */
+            padding: 1rem;
+            margin: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            min-width: 150px;
+            text-align: center;
+        }
+        .tile:hover {
+            transform: translateY(-3px);
+            background-color: #e0e7ff; /* Light blue hover */
+        }
+        .tile.selected {
+            background-color: #00356b; /* Yale Blue */
+            color: white;
+            border-color: #002147; /* Darker Yale Blue */
+        }
+        .tile.matched {
+            background-color: #d1fae5; /* Greenish */
+            border-color: #059669;
+            cursor: default;
+            opacity: 0.7;
+        }
+        .drop-zone {
+            border: 2px dashed #00356b;
+            padding: 1rem;
+            margin: 0.5rem;
+            border-radius: 8px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .limerick-box {
+            background-color: #fffbeb; /* Light yellow */
+            border-left: 4px solid #facc15; /* Yellow */
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        /* Ensure Tailwind is loaded, then Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-3xl mx-auto">
+        <header class="text-center mb-10">
+            <img src="logo.png" alt="Yale Logo" class="mx-auto mb-4 rounded h-16">
+            <h1 class="text-4xl font-bold yale-blue-text">Clinical Trials Virtual Escape Room</h1>
+            <p class="text-lg yale-gray-text mt-2">The Decker Protein Discovery Challenge</p>
+        </header>
+
+        <div id="intro-section" class="puzzle-container visible text-center">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-4">Welcome, Researchers!</h2>
+            <p class="mb-4">You've been selected for a critical mission: to fast-track the "Decker Protein" clinical trial. This revolutionary discovery at Yale could change medicine forever, but first, you must prove your team's expertise by navigating a series of challenges.</p>
+            <p class="mb-6">Solve each puzzle to unlock the next. Your critical thinking, knowledge of clinical trial protocols, and teamwork are paramount. The fate of the Decker Protein trial rests in your hands!</p>
+            <button id="start-game-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-md transition-transform transform hover:scale-105">
+                Begin the Challenge!
+            </button>
+        </div>
+
+        <div id="puzzle1-biometric" class="puzzle-container hidden">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-1">Puzzle 1: Biometric Code Entry</h2>
+            <p class="text-sm yale-gray-text mb-4">Answer the questions correctly to unlock the access code for the Decker Protein Database.</p>
+            
+            <div id="p1-lights" class="flex justify-center space-x-2 mb-6">
+                <span class="green-light" id="p1-light-0"></span>
+                <span class="green-light" id="p1-light-1"></span>
+                <span class="green-light" id="p1-light-2"></span>
+                <span class="green-light" id="p1-light-3"></span>
+                <span class="green-light" id="p1-light-4"></span>
+                <span class="green-light" id="p1-light-5"></span>
+            </div>
+
+            <div id="p1-questions-container">
+                </div>
+            <div id="p1-feedback" class="feedback-message mt-4"></div>
+            
+            <div id="p1-final-code-entry" class="hidden mt-6">
+                <p class="font-semibold mb-2 text-center">Enter the 6-character activation code to access the Decker Protein database.</p>
+                <input type="text" id="p1-code-input" class="border border-gray-300 p-3 rounded-lg w-full text-center text-xl tracking-widest" placeholder="ENTER CODE">
+                <div class="mt-3 flex gap-2">
+                    <button id="p1-submit-code" class="flex-1 yale-blue hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition-colors">Submit Code</button>
+                    <button id="p1-hint-button" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Request Hint</button>
+                </div>
+                <p id="p1-hint-text" class="hidden mt-3 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+                    Hint: The code consists of the first letter of each correct answer, in order.
+                </p>
+                <p id="p1-final-feedback" class="feedback-message mt-2 text-center"></p>
+            </div>
+        </div>
+
+        <div id="puzzle2-protocol" class="puzzle-container hidden">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-4">Puzzle 2: Protocol Matchup</h2>
+            <p class="mb-4">Match the patient symptoms to the correct clinical trial protocols. Click a symptom tile, then click the corresponding protocol tile.</p>
+            <div class="flex flex-col md:flex-row justify-between items-start">
+                <div id="p2-symptoms-column" class="w-full md:w-5/12 mb-4 md:mb-0">
+                    <h3 class="text-lg font-medium yale-blue-text mb-2 text-center">Symptoms</h3>
+                    </div>
+                <div class="w-full md:w-2/12 flex justify-center items-center text-2xl yale-blue-text font-bold">&rarr;</div>
+                <div id="p2-protocols-column" class="w-full md:w-5/12">
+                    <h3 class="text-lg font-medium yale-blue-text mb-2 text-center">Protocols</h3>
+                    </div>
+            </div>
+             <div id="p2-feedback" class="feedback-message mt-6 text-center"></div>
+            <button id="p2-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Proceed to Data Dilemma</button>
+        </div>
+
+        <div id="puzzle3-data" class="puzzle-container hidden">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-4">Puzzle 3: Data Dilemma</h2>
+            <p class="mb-4">Answer the following questions related to data queries and EHR navigation. Select the best answer for each.</p>
+            <div id="p3-questions-container">
+                </div>
+            <div id="p3-feedback-overall" class="feedback-message mt-4 text-center"></div>
+            <button id="p3-submit-answers" class="mt-6 w-full yale-blue hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition-colors">Check Answers</button>
+            <button id="p3-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Locked Storage</button>
+        </div>
+
+        <div id="puzzle4-storage" class="puzzle-container hidden">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-4">Puzzle 4: Locked Storage</h2>
+            <p class="mb-4">Test your knowledge of GCP, FDA guidelines, and best practices for storing sensitive research information.</p>
+             <div id="p4-questions-container">
+                </div>
+            <div id="p4-feedback-overall" class="feedback-message mt-4 text-center"></div>
+            <button id="p4-submit-answers" class="mt-6 w-full yale-blue hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition-colors">Verify Storage Protocols</p>
+            <button id="p4-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Initiate Emergency Response</button>
+        </div>
+
+        <div id="puzzle5-limericks" class="puzzle-container hidden">
+            <h2 class="text-2xl font-semibold yale-blue-text mb-2">Final Challenge: Timed Emergency Response!</h2>
+            <p class="yale-gray-text mb-4">Anomalies detected! Solve the limerick puzzles to identify critical actions. You have <span id="p5-timer" class="font-bold text-red-600">3:00</span> minutes.</p>
+            <div id="p5-limericks-container">
+                </div>
+            <button id="p5-submit-escape" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">Attempt Final Escape!</button>
+            <div id="p5-feedback" class="feedback-message mt-4 text-center"></div>
+        </div>
+        
+        <div id="success-section" class="puzzle-container hidden text-center">
+            <h2 class="text-3xl font-bold text-green-600 mb-4">Congratulations, Yale Researchers!</h2>
+            <img src="https://placehold.co/120x120/22c55e/ffffff?text=SUCCESS!" alt="Success" class="mx-auto mb-4 rounded-full">
+            <p class="text-xl mb-4">You have successfully navigated all the challenges and proven your expertise!</p>
+            <p class="mb-6">The Decker Protein clinical trial is now cleared for launch, thanks to your dedication and sharp thinking. You've demonstrated exceptional knowledge of clinical trial protocols and problem-solving skills.</p>
+            <p class="yale-gray-text">Well done!</p>
+        </div>
+
+    </div>
+
+<script>
+    // --- Global State & Configuration ---
+    let currentPuzzle = 0; // 0: Intro, 1: Biometric, 2: Protocol, etc.
+    const puzzles = [
+        'intro-section', 
+        'puzzle1-biometric', 
+        'puzzle2-protocol', 
+        'puzzle3-data', 
+        'puzzle4-storage', 
+        'puzzle5-limericks',
+        'success-section'
+    ];
+
+    function showPuzzle(puzzleId) {
+        puzzles.forEach(id => {
+            const el = document.getElementById(id);
+            if (id === puzzleId) {
+                el.classList.remove('hidden');
+                el.classList.add('visible');
+                
+                // Start timer only when puzzle 5 becomes visible
+                if (id === 'puzzle5-limericks') {
+                    // Reset and start the timer for puzzle 5
+                    p5TimeRemaining = 3 * 60; // Reset to 3 minutes
+                    startP5Timer();
+                }
+            } else {
+                el.classList.remove('visible');
+                el.classList.add('hidden');
+                
+                // Clear timer if leaving puzzle 5
+                if (id === 'puzzle5-limericks') {
+                    clearInterval(p5TimerInterval);
+                }
+            }
+        });
+    }
+
+    // --- Puzzle 1: Biometric Code Entry ---
+    const p1Questions = [
+        {
+            question: "What is the primary type of nucleic acid often depicted as a 'double helix' that carries genetic instructions for all known living organisms?",
+            options: { 
+                a: "DNA Replication Complex", 
+                b: "Deoxyribonucleic Acid (DNA)", 
+                c: "Nucleic Acid Polymer", 
+                d: "Ribosomal Nucleic Structure" 
+            },
+            correctAnswer: "b",
+            answerLetter: "D"
+        },
+        {
+            question: "In a clinical trial, what is the term for the specific, measurable outcome the study is designed to assess?",
+            options: { 
+                a: "Primary Outcome", 
+                b: "Trial Objective", 
+                c: "Endpoint", 
+                d: "Efficacy Measure" 
+            },
+            correctAnswer: "c",
+            answerLetter: "E"
+        },
+        {
+            question: "Which of the four main nucleobases in DNA forms three hydrogen bonds and always pairs with guanine?",
+            options: { 
+                a: "Thymine", 
+                b: "Cytosine", 
+                c: "Complementary Base", 
+                d: "Adenine Analog" 
+            },
+            correctAnswer: "b",
+            answerLetter: "C"
+        },
+        {
+            question: "What absolute temperature scale begins at absolute zero (-273.15°C) and is commonly used in scientific research?",
+            options: { 
+                a: "Absolute Scale", 
+                b: "Kelvin", 
+                c: "Zero-point Measurement", 
+                d: "Kelvin-based Units" 
+            },
+            correctAnswer: "b",
+            answerLetter: "K"
+        },
+        {
+            question: "What critical process in clinical research involves thorough assessment and judgment of an intervention's effects, value, and quality?",
+            options: { 
+                a: "Data Analysis", 
+                b: "Quality Assessment", 
+                c: "Evaluation", 
+                d: "Efficacy Review" 
+            },
+            correctAnswer: "c",
+            answerLetter: "E"
+        },
+        {
+            question: "What type of nucleic acid molecule is essential in protein synthesis, carrying the genetic code from DNA to the ribosome?",
+            options: { 
+                a: "Molecular Translator", 
+                b: "Genetic Messenger", 
+                c: "Ribonucleic Acid (RNA)", 
+                d: "RNA Molecule" 
+            },
+            correctAnswer: "c",
+            answerLetter: "R"
+        }
+    ];
+    let p1CurrentQuestionIndex = 0;
+    let p1CorrectAnswers = 0;
+    let p1UserAnswers = Array(p1Questions.length).fill(null);
+    let p1AnsweredQuestions = Array(p1Questions.length).fill(false);
+    const p1QuestionsContainer = document.getElementById('p1-questions-container');
+    const p1Feedback = document.getElementById('p1-feedback');
+    const p1FinalCodeEntry = document.getElementById('p1-final-code-entry');
+    const p1CodeInput = document.getElementById('p1-code-input');
+    const p1SubmitCodeButton = document.getElementById('p1-submit-code');
+    const p1FinalFeedback = document.getElementById('p1-final-feedback');
+
+    function loadP1Question(questionIndex = null) {
+        // If questionIndex is provided, load that specific question
+        if (questionIndex !== null) {
+            p1CurrentQuestionIndex = questionIndex;
+        }
+        
+        p1Feedback.textContent = '';
+        p1Feedback.className = 'feedback-message mt-4';
+        
+        if (p1CurrentQuestionIndex < p1Questions.length) {
+            const q = p1Questions[p1CurrentQuestionIndex];
+            p1QuestionsContainer.innerHTML = `
+                <div class="question-card">
+                    <p class="font-medium mb-3">Question ${p1CurrentQuestionIndex + 1} of ${p1Questions.length}: ${q.question}</p>
+                    ${Object.entries(q.options).map(([key, value]) => `
+                        <button class="option-button ${p1UserAnswers[p1CurrentQuestionIndex] === key ? (key === q.correctAnswer ? 'correct' : 'incorrect') : ''}" data-answer="${key}">
+                            ${key.toUpperCase()}. ${value}
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="flex justify-between mt-4">
+                    ${p1CurrentQuestionIndex > 0 ? '<button id="p1-prev-question" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">Previous</button>' : '<div></div>'}
+                    <button id="p1-next-question" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                        ${p1CurrentQuestionIndex < p1Questions.length - 1 ? 'Next' : 'Finish'}
+                    </button>
+                </div>
+            `;
+            
+            // Show correct answer for previously answered questions
+            if (p1AnsweredQuestions[p1CurrentQuestionIndex]) {
+                const correctAnswerKey = q.correctAnswer;
+                p1QuestionsContainer.querySelector(`.option-button[data-answer="${correctAnswerKey}"]`).classList.add('correct');
+            }
+            
+            p1QuestionsContainer.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', handleP1Answer);
+            });
+            
+            if (p1CurrentQuestionIndex > 0) {
+                document.getElementById('p1-prev-question').addEventListener('click', () => {
+                    loadP1Question(p1CurrentQuestionIndex - 1);
+                });
+            }
+            
+            document.getElementById('p1-next-question').addEventListener('click', () => {
+                if (p1CurrentQuestionIndex < p1Questions.length - 1) {
+                    loadP1Question(p1CurrentQuestionIndex + 1);
+                } else {
+                    checkAllAnswersAndFinish();
+                }
+            });
+        } else {
+            checkAllAnswersAndFinish();
+        }
+    }
+
+    function handleP1Answer(event) {
+        const selectedAnswer = event.target.dataset.answer;
+        const questionData = p1Questions[p1CurrentQuestionIndex];
+        
+        // Store the user's answer
+        p1UserAnswers[p1CurrentQuestionIndex] = selectedAnswer;
+        p1AnsweredQuestions[p1CurrentQuestionIndex] = true;
+        
+        // Remove previous highlighting
+        p1QuestionsContainer.querySelectorAll('.option-button').forEach(btn => {
+            btn.classList.remove('correct', 'incorrect');
+        });
+        
+        // Highlight selected answer
+        if (selectedAnswer === questionData.correctAnswer) {
+            event.target.classList.add('correct');
+            p1Feedback.textContent = 'Correct! Excellent work.';
+            p1Feedback.className = 'feedback-message mt-4 feedback-correct';
+            
+            // If this is the first time getting this question correct
+            if (!document.getElementById(`p1-light-${p1CurrentQuestionIndex}`).classList.contains('on')) {
+                document.getElementById(`p1-light-${p1CurrentQuestionIndex}`).classList.add('on');
+                p1CorrectAnswers++;
+            }
+        } else {
+            event.target.classList.add('incorrect');
+            p1Feedback.textContent = 'Incorrect. The correct answer has been highlighted.';
+            p1Feedback.className = 'feedback-message mt-4 feedback-incorrect';
+            
+            // Also highlight the correct answer
+            p1QuestionsContainer.querySelector(`.option-button[data-answer="${questionData.correctAnswer}"]`).classList.add('correct');
+        }
+        
+        // Don't automatically advance - let user control navigation
+    }
+
+    function checkAllAnswersAndFinish() {
+        // Check if all questions have been answered
+        const allAnswered = p1AnsweredQuestions.every(answered => answered);
+        
+        if (!allAnswered) {
+            p1Feedback.textContent = 'Please answer all questions before proceeding.';
+            p1Feedback.className = 'feedback-message mt-4 feedback-incorrect';
+            
+            // Find the first unanswered question and go to it
+            const firstUnansweredIndex = p1AnsweredQuestions.findIndex(answered => !answered);
+            if (firstUnansweredIndex !== -1) {
+                loadP1Question(firstUnansweredIndex);
+            }
+            return;
+        }
+        
+        // Show the final code entry form
+        p1QuestionsContainer.innerHTML = `
+            <p class="text-center font-semibold ${p1CorrectAnswers === p1Questions.length ? 'text-green-600' : 'text-yellow-600'}">
+                All questions answered! You got ${p1CorrectAnswers} out of ${p1Questions.length} correct.
+            </p>
+            <button id="p1-review-answers" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Review Answers
+            </button>
+        `;
+        
+        document.getElementById('p1-review-answers').addEventListener('click', () => {
+            loadP1Question(0);
+        });
+        
+        p1FinalCodeEntry.classList.remove('hidden');
+    }
+
+    const p1HintButton = document.getElementById('p1-hint-button');
+    const p1HintText = document.getElementById('p1-hint-text');
+    
+    p1HintButton.addEventListener('click', () => {
+        p1HintText.classList.remove('hidden');
+    });
+    
+    p1SubmitCodeButton.addEventListener('click', () => {
+        const enteredCode = p1CodeInput.value.toUpperCase();
+        if (enteredCode === "DECKER") {
+            if (p1CorrectAnswers === 6) {
+                 p1FinalFeedback.textContent = 'Access Granted! The Decker Protein Database is unlocked. Proceeding to Puzzle 2...';
+                 p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct';
+                 setTimeout(() => showPuzzle('puzzle2-protocol'), 2000);
+            } else {
+                 p1FinalFeedback.textContent = 'Code correct, but you missed some questions. Review your notes! For now, we grant access. Proceeding to Puzzle 2...';
+                 p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct'; // Still correct code
+                 setTimeout(() => showPuzzle('puzzle2-protocol'), 2500);
+            }
+        } else {
+            p1FinalFeedback.textContent = 'Access Denied. Incorrect code. Please re-check the first letters of the correct answers.';
+            p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-incorrect';
+            p1CodeInput.value = ''; // Clear input
+        }
+    });
+
+    // --- Puzzle 2: Protocol Matchup ---
+    const p2Symptoms = [
+        { id: 's1', text: "Persistent, severe throbbing headache, aura, photophobia, 3-4 times/month." }, // Migraine
+        { id: 's2', text: "Adult: fasting blood glucose 135 mg/dL, HbA1c 7.2%." }, // Diabetes
+        { id: 's3', text: "Elderly: memory lapses, difficulty with familiar tasks, confusion." }, // Alzheimer's
+        { id: 's4', text: "Young adult: persistent sadness, loss of interest, fatigue, poor concentration >6 weeks." }, // Depression
+        { id: 's5', text: "Known asthma: increased wheezing, SOB, nighttime awakenings despite inhaler." }, // Asthma
+        { id: 's6', text: "Sudden severe joint pain, swelling, redness, especially big toe." }, // Gout
+        { id: 's7', text: "Recurrent, itchy, raised red welts on skin; no consistent trigger." } // Urticaria
+    ];
+
+    const p2Protocols = [
+        { id: 'pA', text: "YNH-NeuroCognitive-004B: CogniBoost for early-stage Alzheimer's." },
+        { id: 'pB', text: "YaleResp-AC-221: FluticasoneMax for severe asthma." },
+        { id: 'pC', text: "ElmCity-Endo-T2DM-R01: Metformin XR Plus Glucostat for Type 2 Diabetes." },
+        { id: 'pD', text: "YSPsyche-MDD-009: Escitalopram vs. Serenitude for Major Depressive Disorder." },
+        { id: 'pE', text: "Skull&Bones-PainFree-MGR01: Topiramate-NG for chronic migraine." },
+        { id: 'pF', text: "SterlingRheum-GU-007: Colchicine-Neo for Gout flares." },
+        { id: 'pG', text: "YaleDerm-CU-PatchIt: Topical immunomodulator for chronic urticaria." }
+    ];
+
+    const p2CorrectMatches = { s1: 'pE', s2: 'pC', s3: 'pA', s4: 'pD', s5: 'pB', s6: 'pF', s7: 'pG' };
+    let p2SelectedSymptom = null;
+    let p2SelectedProtocol = null;
+    let p2MatchedPairs = 0;
+
+    const p2SymptomsColumn = document.getElementById('p2-symptoms-column');
+    const p2ProtocolsColumn = document.getElementById('p2-protocols-column');
+    const p2FeedbackEl = document.getElementById('p2-feedback');
+    const p2NextButton = document.getElementById('p2-next-puzzle');
+
+    function shuffleArray(array) { // Fisher-Yates shuffle
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadP2Tiles() {
+        shuffleArray(p2Symptoms); // Shuffle for replayability
+        shuffleArray(p2Protocols);
+
+        p2SymptomsColumn.innerHTML = '<h3 class="text-lg font-medium yale-blue-text mb-2 text-center">Symptoms</h3>';
+        p2ProtocolsColumn.innerHTML = '<h3 class="text-lg font-medium yale-blue-text mb-2 text-center">Protocols</h3>';
+
+        p2Symptoms.forEach(symptom => {
+            const tile = document.createElement('div');
+            tile.classList.add('tile', 'symptom-tile');
+            tile.dataset.id = symptom.id;
+            tile.textContent = symptom.text;
+            tile.addEventListener('click', () => handleP2SymptomSelect(tile));
+            p2SymptomsColumn.appendChild(tile);
+        });
+
+        p2Protocols.forEach(protocol => {
+            const tile = document.createElement('div');
+            tile.classList.add('tile', 'protocol-tile');
+            tile.dataset.id = protocol.id;
+            tile.textContent = protocol.text;
+            tile.addEventListener('click', () => handleP2ProtocolSelect(tile));
+            p2ProtocolsColumn.appendChild(tile);
+        });
+        p2MatchedPairs = 0; // Reset count
+        p2NextButton.classList.add('hidden');
+        p2FeedbackEl.textContent = '';
+    }
+    
+    function handleP2SymptomSelect(tile) {
+        if (tile.classList.contains('matched')) return;
+        if (p2SelectedSymptom) p2SelectedSymptom.classList.remove('selected');
+        p2SelectedSymptom = tile;
+        tile.classList.add('selected');
+        checkP2Match();
+    }
+
+    function handleP2ProtocolSelect(tile) {
+        if (tile.classList.contains('matched')) return;
+        if (p2SelectedProtocol) p2SelectedProtocol.classList.remove('selected');
+        p2SelectedProtocol = tile;
+        tile.classList.add('selected');
+        checkP2Match();
+    }
+
+    function checkP2Match() {
+        if (p2SelectedSymptom && p2SelectedProtocol) {
+            const symptomId = p2SelectedSymptom.dataset.id;
+            const protocolId = p2SelectedProtocol.dataset.id;
+
+            if (p2CorrectMatches[symptomId] === protocolId) {
+                p2SelectedSymptom.classList.add('matched');
+                p2SelectedProtocol.classList.add('matched');
+                p2SelectedSymptom.classList.remove('selected');
+                p2SelectedProtocol.classList.remove('selected');
+                p2FeedbackEl.textContent = 'Correct Match!';
+                p2FeedbackEl.className = 'feedback-message mt-6 text-center feedback-correct';
+                p2MatchedPairs++;
+                if (p2MatchedPairs === p2Symptoms.length) {
+                    p2FeedbackEl.textContent = 'All protocols matched correctly! Outstanding work!';
+                    p2NextButton.classList.remove('hidden');
+                }
+            } else {
+                p2FeedbackEl.textContent = 'Incorrect match. Try again.';
+                p2FeedbackEl.className = 'feedback-message mt-6 text-center feedback-incorrect';
+                p2SelectedSymptom.classList.remove('selected');
+                p2SelectedProtocol.classList.remove('selected');
+            }
+            p2SelectedSymptom = null;
+            p2SelectedProtocol = null;
+            setTimeout(() => { if(p2MatchedPairs !== p2Symptoms.length) {p2FeedbackEl.textContent = ''; p2FeedbackEl.className = 'feedback-message mt-6 text-center';}}, 1500);
+        }
+    }
+    
+    p2NextButton.addEventListener('click', () => showPuzzle('puzzle3-data'));
+
+
+    // --- Puzzle 3: Data Dilemma ---
+    const p3Questions = [
+        {
+            question: "A patient in your trial reports 'feeling really off and woozy all morning.' According to CTCAE v5, if this is determined to be 'Dizziness' and it's limiting their instrumental Activities of Daily Living (ADLs) like driving or shopping, what is the correct grade?",
+            options: { a: "Grade 1 (Mild)", b: "Grade 2 (Moderate; limiting instrumental ADL)", c: "Grade 3 (Severe; limiting self-care ADL)", d: "Grade 'My Head is Spinning Like a Top'" },
+            correctAnswer: "b"
+        },
+        {
+            question: "To confirm a patient's official cancer diagnosis for trial eligibility, you need to find the definitive pathology report. In a typical EPIC system, which major menu or activity would you most likely navigate to first?",
+            options: { a: "Billing and Insurance", b: "Social Work Notes", c: "Chart Review (then likely a 'Media' or 'Pathology/Labs' tab)", d: "The Cafeteria Menu (to ponder over coffee)" },
+            correctAnswer: "c"
+        },
+        {
+            question: "You need to verify the exact start time, stop time, and total volume infused for an investigational product administered yesterday. Which section in EPIC would provide the most accurate and contemporaneous record of these administration details?",
+            options: { a: "The patient's handwritten diary", b: "MAR (Medication Administration Record) or an Infusion Flowsheet/Documentation section", c: "A sticky note left by the previous shift", d: "The 'Doctor's Best Guess' tab" },
+            correctAnswer: "b"
+        },
+        {
+            question: "A patient's reported medical history includes 'heart racing really fast sometimes.' If the physician confirms this as 'Paroxysmal Atrial Tachycardia,' and the protocol requires reporting any cardiac arrhythmias, which term should be officially recorded?",
+            options: { a: "'Heart going boom-boom-boom'", b: "'Occasional Speedy Heart Syndrome'", c: "Paroxysmal Atrial Tachycardia", d: "'Needs more calming tea'" },
+            correctAnswer: "c"
+        }
+    ];
+    const p3QuestionsContainer = document.getElementById('p3-questions-container');
+    const p3SubmitButton = document.getElementById('p3-submit-answers');
+    const p3FeedbackOverall = document.getElementById('p3-feedback-overall');
+    const p3NextPuzzleButton = document.getElementById('p3-next-puzzle');
+    let p3Answers = {};
+
+    function loadP3Questions() {
+        p3QuestionsContainer.innerHTML = '';
+        p3Questions.forEach((q, index) => {
+            const questionEl = document.createElement('div');
+            questionEl.classList.add('question-card');
+            questionEl.innerHTML = `
+                <p class="font-medium mb-3">${index + 1}. ${q.question}</p>
+                ${Object.entries(q.options).map(([key, value]) => `
+                    <label class="block mb-2 p-2 border rounded-md hover:bg-gray-100 cursor-pointer">
+                        <input type="radio" name="p3q${index}" value="${key}" class="mr-2">
+                        ${key.toUpperCase()}. ${value}
+                    </label>
+                `).join('')}
+            `;
+            p3QuestionsContainer.appendChild(questionEl);
+        });
+        p3SubmitButton.classList.remove('hidden');
+        p3NextPuzzleButton.classList.add('hidden');
+        p3FeedbackOverall.textContent = '';
+    }
+
+    p3SubmitButton.addEventListener('click', () => {
+        let correctCount = 0;
+        p3Questions.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="p3q${index}"]:checked`);
+            if (selectedOption && selectedOption.value === q.correctAnswer) {
+                correctCount++;
+                selectedOption.parentElement.classList.add('correct'); // Style correct label
+            } else if (selectedOption) {
+                selectedOption.parentElement.classList.add('incorrect'); // Style incorrect label
+                // Highlight the correct one
+                const correctRadio = document.querySelector(`input[name="p3q${index}"][value="${q.correctAnswer}"]`);
+                if(correctRadio) correctRadio.parentElement.classList.add('correct');
+            }
+        });
+
+        if (correctCount === p3Questions.length) {
+            p3FeedbackOverall.textContent = 'All answers correct! Your data acumen is impressive!';
+            p3FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-correct';
+            p3NextPuzzleButton.classList.remove('hidden');
+            p3SubmitButton.classList.add('hidden');
+        } else {
+            p3FeedbackOverall.textContent = `You got ${correctCount} out of ${p3Questions.length} correct. Review the highlighted answers.`;
+            p3FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-incorrect';
+             // Allow re-try or provide a pass-through if desired after a delay
+            setTimeout(() => {
+                 if (confirm(`You got ${correctCount}/${p3Questions.length}. Would you like to proceed anyway or try again? (Cancel to try again)`)) {
+                    p3NextPuzzleButton.classList.remove('hidden');
+                    p3SubmitButton.classList.add('hidden');
+                 } else {
+                    // Reset styles for retry
+                    p3QuestionsContainer.querySelectorAll('label').forEach(label => {
+                        label.classList.remove('correct', 'incorrect');
+                    });
+                    p3FeedbackOverall.textContent = '';
+                 }
+            }, 2000);
+        }
+    });
+    p3NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle4-storage'));
+
+    // --- Puzzle 4: Locked Storage ---
+    const p4Questions = [
+        {
+            question: "When storing physical documents containing Patient Health Information (PHI) at your Yale site, which of these is the MOST critical practice according to HIPAA?",
+            options: { a: "Keeping them in a brightly lit, easily accessible area for convenience.", b: "Storing them in locked cabinets or a secure room with restricted access.", c: "Using colorful binders so they don't get mixed up with your lunch.", d: "Leaving them on your desk under a heavy textbook for 'gravity-based security.'" },
+            correctAnswer: "b"
+        },
+        {
+            question: "Your team is working with highly sensitive, proprietary data for the Decker Protein. What is a key principle for storing this digital information securely?",
+            options: { a: "Saving it on a shared USB drive that everyone in the department can borrow.", b: "Using passwords like 'password123' or 'deckerprotein' for easy recall.", c: "Emailing it to your personal Gmail account for backup.", d: "Storing it on encrypted, access-controlled Yale servers or approved cloud storage with multi-factor authentication." },
+            correctAnswer: "d"
+        },
+        {
+            question: "According to Good Clinical Practice (GCP E6, R2 - 5.14.3), storage for investigational products must be:",
+            options: { a: "Wherever there's space, even if it's next to the coffee machine.", b: "At room temperature, always, because refrigerators are too much trouble.", c: "As specified by the sponsor and in accordance with applicable regulatory requirements (which often means temperature-controlled and monitored).", d: "Handled by the intern, 'it builds character.'" },
+            correctAnswer: "c"
+        },
+        {
+            question: "For a clinical trial supporting a drug marketing application, how long does the FDA (21 CFR 312.62c) generally require investigators to retain study records *after* the drug is approved or the investigation is discontinued?",
+            options: { a: "6 months – just enough time to publish.", b: "2 years.", c: "10 years – to match your PhD loan repayment schedule.", d: "Until the storage unit overflows or aliens invade, whichever comes first." },
+            correctAnswer: "b"
+        },
+        {
+            question: "Where should original essential documents (like signed consent forms) ideally be maintained throughout the trial?",
+            options: { a: "In the PI's car for quick access during commutes.", b: "Digitized on a personal phone, then originals shredded for eco-friendliness.", c: "At the investigational site, securely, and accessible for monitoring/audit/inspection.", d: "Hidden in a secret compartment in the Sterling Memorial Library, for added mystique." },
+            correctAnswer: "c"
+        }
+    ];
+    const p4QuestionsContainer = document.getElementById('p4-questions-container');
+    const p4SubmitButton = document.getElementById('p4-submit-answers');
+    const p4FeedbackOverall = document.getElementById('p4-feedback-overall');
+    const p4NextPuzzleButton = document.getElementById('p4-next-puzzle');
+
+    function loadP4Questions() {
+        p4QuestionsContainer.innerHTML = '';
+        p4Questions.forEach((q, index) => {
+            const questionEl = document.createElement('div');
+            questionEl.classList.add('question-card');
+            questionEl.innerHTML = `
+                <p class="font-medium mb-3">${index + 1}. ${q.question}</p>
+                ${Object.entries(q.options).map(([key, value]) => `
+                    <label class="block mb-2 p-2 border rounded-md hover:bg-gray-100 cursor-pointer">
+                        <input type="radio" name="p4q${index}" value="${key}" class="mr-2">
+                        ${key.toUpperCase()}. ${value}
+                    </label>
+                `).join('')}
+            `;
+            p4QuestionsContainer.appendChild(questionEl);
+        });
+        p4SubmitButton.classList.remove('hidden');
+        p4NextPuzzleButton.classList.add('hidden');
+        p4FeedbackOverall.textContent = '';
+    }
+    
+    p4SubmitButton.addEventListener('click', () => {
+        let correctCount = 0;
+        p4Questions.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="p4q${index}"]:checked`);
+            if (selectedOption && selectedOption.value === q.correctAnswer) {
+                correctCount++;
+                selectedOption.parentElement.classList.add('correct');
+            } else if (selectedOption) {
+                selectedOption.parentElement.classList.add('incorrect');
+                 const correctRadio = document.querySelector(`input[name="p4q${index}"][value="${q.correctAnswer}"]`);
+                if(correctRadio) correctRadio.parentElement.classList.add('correct');
+            }
+        });
+
+        if (correctCount === p4Questions.length) {
+            p4FeedbackOverall.textContent = 'Storage protocols mastered! Your diligence is commendable!';
+            p4FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-correct';
+            p4NextPuzzleButton.classList.remove('hidden');
+            p4SubmitButton.classList.add('hidden');
+        } else {
+            p4FeedbackOverall.textContent = `You correctly identified ${correctCount} out of ${p4Questions.length} storage protocols. Please review.`;
+            p4FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-incorrect';
+            setTimeout(() => {
+                 if (confirm(`You got ${correctCount}/${p4Questions.length}. Would you like to proceed or try again? (Cancel to try again)`)) {
+                    p4NextPuzzleButton.classList.remove('hidden');
+                    p4SubmitButton.classList.add('hidden');
+                 } else {
+                    p4QuestionsContainer.querySelectorAll('label').forEach(label => {
+                        label.classList.remove('correct', 'incorrect');
+                    });
+                    p4FeedbackOverall.textContent = '';
+                 }
+            }, 2000);
+        }
+    });
+    p4NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle5-limericks'));
+
+
+    // --- Puzzle 5: Final Escape - Limericks ---
+    const p5Limericks = [
+        {
+            limerick: "A researcher named Stan, quite astute,<br>Found consent forms with fruit... (juice stains, that is!)<br>But the date of the sign,<br>Preceded the trial design!<br>What's the main issue to bruit?",
+            keywords: ["INVALID CONSENT", "RECONSENT", "IRB NOTIFY", "DOCUMENTATION ERROR", "CONSENT ERROR"] // Allow variations
+        },
+        {
+            limerick: "The trial drug, chilled with great care,<br>Had a freezer log showing hot air!<br>For two days it did bake,<br>A serious mistake.<br>What action now must you prepare?",
+            keywords: ["QUARANTINE DRUG", "TEMP EXCURSION", "NOTIFY SPONSOR", "ASSESS PRODUCT", "PRODUCT STABILITY"]
+        },
+        {
+            limerick: "Young Tim, in a trial so grand,<br>Took a drug not meant for his hand.<br>Wrong med, it appears,<br>Confirming their fears.<br>What's the first vital command?",
+            keywords: ["PATIENT SAFETY", "ASSESS AE", "REPORT ERROR", "MEDICAL ASSESSMENT", "MEDICATION ERROR"]
+        },
+        {
+            limerick: "A data breach, oh what a fright!<br>PHI was exposed in the night.<br>The sponsor's irate,<br>Sealing the site's fate.<br>What step makes the future look bright?",
+            keywords: ["CONTAIN BREACH", "NOTIFY OFFICIALS", "CAPA", "REPORT BREACH", "PRIVACY INCIDENT"]
+        }
+    ];
+    const p5LimericksContainer = document.getElementById('p5-limericks-container');
+    const p5TimerDisplay = document.getElementById('p5-timer');
+    const p5SubmitEscapeButton = document.getElementById('p5-submit-escape');
+    const p5FeedbackEl = document.getElementById('p5-feedback');
+    let p5TimerInterval;
+    let p5TimeRemaining = 3 * 60; // 3 minutes in seconds
+
+    function loadP5Limericks() {
+        p5LimericksContainer.innerHTML = '';
+        p5Limericks.forEach((item, index) => {
+            const limerickEl = document.createElement('div');
+            limerickEl.classList.add('mb-6', 'p-4', 'border', 'border-gray-300', 'rounded-lg', 'bg-white');
+            limerickEl.innerHTML = `
+                <div class="limerick-box">${index + 1}. ${item.limerick}</div>
+                <input type="text" id="p5ans${index}" class="mt-2 border border-gray-300 p-2 rounded-lg w-full" placeholder="Enter keyword response...">
+            `;
+            p5LimericksContainer.appendChild(limerickEl);
+        });
+        // Timer will start when puzzle becomes visible, not when limericks are loaded
+    }
+
+    function startP5Timer() {
+        clearInterval(p5TimerInterval); // Clear any existing timer
+        p5TimerInterval = setInterval(() => {
+            p5TimeRemaining--;
+            const minutes = Math.floor(p5TimeRemaining / 60);
+            const seconds = p5TimeRemaining % 60;
+            p5TimerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            if (p5TimeRemaining <= 0) {
+                clearInterval(p5TimerInterval);
+                p5TimerDisplay.textContent = "0:00";
+                p5FeedbackEl.textContent = "Time's up! The anomalies overwhelmed the system. Mission failed.";
+                p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-incorrect';
+                p5SubmitEscapeButton.disabled = true;
+            }
+        }, 1000);
+    }
+    
+    p5SubmitEscapeButton.addEventListener('click', () => {
+        clearInterval(p5TimerInterval);
+        let correctLimericks = 0;
+        p5Limericks.forEach((limerick, index) => {
+            const userAnswer = document.getElementById(`p5ans${index}`).value.toUpperCase().trim();
+            if (limerick.keywords.some(kw => userAnswer.includes(kw))) {
+                correctLimericks++;
+                document.getElementById(`p5ans${index}`).classList.add('border-green-500', 'bg-green-50');
+            } else {
+                 document.getElementById(`p5ans${index}`).classList.add('border-red-500', 'bg-red-50');
+            }
+        });
+
+        if (correctLimericks >= 3) { // Requiring at least 3 out of 4 for success
+            p5FeedbackEl.textContent = `Critical actions identified! You've successfully managed the emergency response with ${correctLimericks}/${p5Limericks.length} correct! Proceeding to final debrief.`;
+            p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-correct';
+            setTimeout(() => showPuzzle('success-section'), 2000);
+        } else {
+            p5FeedbackEl.textContent = `Only ${correctLimericks}/${p5Limericks.length} critical actions correctly identified. The situation remains unstable. Review your responses.`;
+            p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-incorrect';
+            // Optionally restart timer or allow retry
+            // For now, we'll let them pass if they click again or just end it.
+            p5SubmitEscapeButton.textContent = "Try Again or Accept Outcome";
+             p5SubmitEscapeButton.onclick = () => { // Simple bypass for now
+                if (confirm("Would you like to see the success screen anyway for debriefing purposes?")) {
+                    showPuzzle('success-section');
+                }
+            };
+        }
+    });
+
+
+    // --- Game Initialization ---
+    document.getElementById('start-game-button').addEventListener('click', () => {
+        showPuzzle('puzzle1-biometric');
+    });
+
+    // Initialize first puzzle questions
+    window.onload = () => {
+        showPuzzle('intro-section'); // Start with intro
+        // Load questions for puzzles that need pre-population
+        loadP1Question();
+        loadP2Tiles();
+        loadP3Questions();
+        loadP4Questions();
+        loadP5Limericks(); // Load the limericks but don't start the timer
+    };
+
+</script>
+</body>
+</html>
