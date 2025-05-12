@@ -493,11 +493,33 @@
             if (p1CorrectAnswers === 6) {
                  p1FinalFeedback.textContent = 'Access Granted! The Decker Protein Database is unlocked. Proceeding to Puzzle 2...';
                  p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct';
-                 setTimeout(() => showPuzzle('puzzle2-protocol'), 2000);
+                 
+                 // Display clue for puzzle 5
+                 const p1ClueSection = document.createElement('div');
+                 p1ClueSection.innerHTML = `
+                    <div class="mt-6 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                        <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                        <p class="text-yellow-700">"When consent forms have issues, remember that patient protection comes first. Always verify the documentation timeline!"</p>
+                    </div>
+                 `;
+                 p1FinalCodeEntry.appendChild(p1ClueSection);
+                 
+                 setTimeout(() => showPuzzle('puzzle2-protocol'), 4000);
             } else {
                  p1FinalFeedback.textContent = 'Code correct, but you missed some questions. Review your notes! For now, we grant access. Proceeding to Puzzle 2...';
                  p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct'; // Still correct code
-                 setTimeout(() => showPuzzle('puzzle2-protocol'), 2500);
+                 
+                 // Display clue for puzzle 5 (same as above)
+                 const p1ClueSection = document.createElement('div');
+                 p1ClueSection.innerHTML = `
+                    <div class="mt-6 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                        <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                        <p class="text-yellow-700">"When consent forms have issues, remember that patient protection comes first. Always verify the documentation timeline!"</p>
+                    </div>
+                 `;
+                 p1FinalCodeEntry.appendChild(p1ClueSection);
+                 
+                 setTimeout(() => showPuzzle('puzzle2-protocol'), 4000);
             }
         } else {
             p1FinalFeedback.textContent = 'Access Denied. Incorrect code. Please re-check the first letters of the correct answers.';
@@ -624,7 +646,19 @@
         }
     }
     
-    p2NextButton.addEventListener('click', () => showPuzzle('puzzle3-data'));
+    p2NextButton.addEventListener('click', () => {
+        // Display clue for puzzle 5 before proceeding
+        const p2ClueSection = document.createElement('div');
+        p2ClueSection.innerHTML = `
+            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                <p class="text-yellow-700">"When temperature controls fail for investigational products, immediate quarantine and assessment is the only safe approach."</p>
+            </div>
+        `;
+        document.getElementById('p2-feedback').after(p2ClueSection);
+        
+        setTimeout(() => showPuzzle('puzzle3-data'), 4000);
+    });
 
 
     // --- Puzzle 3: Data Dilemma ---
@@ -739,7 +773,19 @@
             }, 3000);
         }
     });
-    p3NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle4-storage'));
+    p3NextPuzzleButton.addEventListener('click', () => {
+        // Display clue for puzzle 5 before proceeding
+        const p3ClueSection = document.createElement('div');
+        p3ClueSection.innerHTML = `
+            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                <p class="text-yellow-700">"When medication errors occur, patient assessment and safety must always be prioritized over documentation or reporting."</p>
+            </div>
+        `;
+        document.getElementById('p3-feedback-overall').after(p3ClueSection);
+        
+        setTimeout(() => showPuzzle('puzzle4-storage'), 4000);
+    });
 
     // --- Puzzle 4: Locked Storage ---
     const p4Questions = [
@@ -767,6 +813,31 @@
             question: "Where should original essential documents (like signed consent forms) ideally be maintained throughout the trial?",
             options: { a: "In the PI's car for quick access during commutes.", b: "Digitized on a personal phone, then originals shredded for eco-friendliness.", c: "At the investigational site, securely, and accessible for monitoring/audit/inspection.", d: "Hidden in a secret compartment in the Sterling Memorial Library, for added mystique." },
             correctAnswer: "c"
+        },
+        {
+            question: "When transporting biological specimens from the clinic to the laboratory, what is the most important consideration?",
+            options: { a: "Using the fastest route possible, even if it means breaking traffic laws.", b: "Maintaining the specimen within required temperature ranges and ensuring proper biohazard containment.", c: "Making sure the specimens look visually appealing to laboratory staff.", d: "Texting the lab technician every 5 minutes with updates on your location." },
+            correctAnswer: "b"
+        },
+        {
+            question: "Yale's backup system for electronic research data should ideally include:",
+            options: { a: "A single backup on the same computer where the original data is stored.", b: "Printouts of all data stored under your mattress at home.", c: "Regular backups to multiple secure locations, with at least one off-site backup.", d: "Memorizing all data points so you can recite them if computers fail." },
+            correctAnswer: "c"
+        },
+        {
+            question: "When storing source documents that contain both PHI and research data, what is the best practice?",
+            options: { a: "Redact all PHI with a permanent marker before filing.", b: "Keep them only on a personal laptop for convenience.", c: "Store them in compliance with both HIPAA and research data retention requirements in a secure, access-controlled environment.", d: "Take photos of important pages with your smartphone for easy reference." },
+            correctAnswer: "c"
+        },
+        {
+            question: "A temperature excursion occurred in your medication storage refrigerator over the weekend. What should be done with the affected investigational product?",
+            options: { a: "Use it anyway – refrigeration guidelines are just suggestions.", b: "Quarantine the product, document the excursion, and contact the sponsor for stability assessment before further use.", c: "Increase the dosage to compensate for any degradation.", d: "Hide the temperature logs and pretend it never happened." },
+            correctAnswer: "b"
+        },
+        {
+            question: "For a multi-site clinical trial, study data should be:",
+            options: { a: "Shared freely via social media to promote transparency.", b: "Stored differently at each site according to individual site preferences.", c: "Accessible only to the sponsor, not the investigators.", d: "Managed according to a consistent data management plan that ensures security, integrity, and compliance across all sites." },
+            correctAnswer: "d"
         }
     ];
     const p4QuestionsContainer = document.getElementById('p4-questions-container');
@@ -825,7 +896,19 @@
             }, 3000);
         }
     });
-    p4NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle5-limericks'));
+    p4NextPuzzleButton.addEventListener('click', () => {
+        // Display clue for puzzle 5 before proceeding
+        const p4ClueSection = document.createElement('div');
+        p4ClueSection.innerHTML = `
+            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                <p class="text-yellow-700">"When data breaches occur, containment and prompt notification to officials are essential first steps to protect participant privacy."</p>
+            </div>
+        `;
+        document.getElementById('p4-feedback-overall').after(p4ClueSection);
+        
+        setTimeout(() => showPuzzle('puzzle5-limericks'), 4000);
+    });
 
 
     // --- Puzzle 5: Final Escape - Limericks ---
@@ -916,7 +999,7 @@
                 });
                 // Don't clear their answers to give them a chance to correct only the wrong ones
                 // Restart the timer for another attempt
-                p5TimeRemaining = 5 * 60; // Reset to 5 minutes
+                p5TimeRemaining = 10 * 60; // Reset to 10 minutes
                 startP5Timer();
                 p5FeedbackEl.textContent = '';
             }, 3000);
