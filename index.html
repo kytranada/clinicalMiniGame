@@ -692,21 +692,15 @@
             p3NextPuzzleButton.classList.remove('hidden');
             p3SubmitButton.classList.add('hidden');
         } else {
-            p3FeedbackOverall.textContent = `You got ${correctCount} out of ${p3Questions.length} correct. Review the highlighted answers.`;
+            p3FeedbackOverall.textContent = `You got ${correctCount} out of ${p3Questions.length} correct. All questions must be answered correctly to proceed. Review the highlighted answers and try again.`;
             p3FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-incorrect';
-             // Allow re-try or provide a pass-through if desired after a delay
+            // Allow retry by resetting incorrect answers
             setTimeout(() => {
-                 if (confirm(`You got ${correctCount}/${p3Questions.length}. Would you like to proceed anyway or try again? (Cancel to try again)`)) {
-                    p3NextPuzzleButton.classList.remove('hidden');
-                    p3SubmitButton.classList.add('hidden');
-                 } else {
-                    // Reset styles for retry
-                    p3QuestionsContainer.querySelectorAll('label').forEach(label => {
-                        label.classList.remove('correct', 'incorrect');
-                    });
-                    p3FeedbackOverall.textContent = '';
-                 }
-            }, 2000);
+                p3QuestionsContainer.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+                p3FeedbackOverall.textContent = '';
+            }, 3000);
         }
     });
     p3NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle4-storage'));
@@ -785,19 +779,14 @@
             p4NextPuzzleButton.classList.remove('hidden');
             p4SubmitButton.classList.add('hidden');
         } else {
-            p4FeedbackOverall.textContent = `You correctly identified ${correctCount} out of ${p4Questions.length} storage protocols. Please review.`;
+            p4FeedbackOverall.textContent = `You correctly identified ${correctCount} out of ${p4Questions.length} storage protocols. All protocols must be correctly identified to proceed. Please review and try again.`;
             p4FeedbackOverall.className = 'feedback-message mt-4 text-center feedback-incorrect';
             setTimeout(() => {
-                 if (confirm(`You got ${correctCount}/${p4Questions.length}. Would you like to proceed or try again? (Cancel to try again)`)) {
-                    p4NextPuzzleButton.classList.remove('hidden');
-                    p4SubmitButton.classList.add('hidden');
-                 } else {
-                    p4QuestionsContainer.querySelectorAll('label').forEach(label => {
-                        label.classList.remove('correct', 'incorrect');
-                    });
-                    p4FeedbackOverall.textContent = '';
-                 }
-            }, 2000);
+                p4QuestionsContainer.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+                p4FeedbackOverall.textContent = '';
+            }, 3000);
         }
     });
     p4NextPuzzleButton.addEventListener('click', () => showPuzzle('puzzle5-limericks'));
@@ -873,8 +862,8 @@
             }
         });
 
-        if (correctLimericks >= 3) { // Requiring at least 3 out of 4 for success
-            p5FeedbackEl.textContent = `Critical actions identified! You've successfully managed the emergency response with ${correctLimericks}/${p5Limericks.length} correct! Proceeding to final debrief.`;
+        if (correctLimericks === p5Limericks.length) { // Requiring all 4 correct for success
+            p5FeedbackEl.textContent = `Critical actions identified! You've successfully managed the emergency response with all ${p5Limericks.length} correct! Proceeding to final debrief.`;
             p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-correct';
             setTimeout(() => {
                 showPuzzle('success-section');
@@ -882,18 +871,19 @@
                 setTimeout(() => showPuzzle('survey-section'), 5000);
             }, 2000);
         } else {
-            p5FeedbackEl.textContent = `Only ${correctLimericks}/${p5Limericks.length} critical actions correctly identified. The situation remains unstable. Review your responses.`;
+            p5FeedbackEl.textContent = `Only ${correctLimericks}/${p5Limericks.length} critical actions correctly identified. All actions must be correctly identified to succeed. Review your responses and try again.`;
             p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-incorrect';
-            // Optionally restart timer or allow retry
-            // For now, we'll let them pass if they click again or just end it.
-            p5SubmitEscapeButton.textContent = "Try Again or Accept Outcome";
-             p5SubmitEscapeButton.onclick = () => { // Simple bypass for now
-                if (confirm("Would you like to see the success screen anyway for debriefing purposes?")) {
-                    showPuzzle('success-section');
-                    // Show survey after 5 seconds of seeing the success screen
-                    setTimeout(() => showPuzzle('survey-section'), 5000);
-                }
-            };
+            // Reset for retry
+            setTimeout(() => {
+                p5LimericksContainer.querySelectorAll('input').forEach(input => {
+                    input.classList.remove('border-green-500', 'bg-green-50', 'border-red-500', 'bg-red-50');
+                });
+                // Don't clear their answers to give them a chance to correct only the wrong ones
+                // Restart the timer for another attempt
+                p5TimeRemaining = 3 * 60; // Reset to 3 minutes
+                startP5Timer();
+                p5FeedbackEl.textContent = '';
+            }, 3000);
         }
     });
 
