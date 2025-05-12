@@ -8,6 +8,7 @@ const puzzles = [
     'puzzle4-storage', 
     'puzzle5-limericks',
     'success-section',
+    'failure-section',
     'survey-section'
 ];
 
@@ -764,9 +765,9 @@ function startP5Timer() {
         if (p5TimeRemaining <= 0) {
             clearInterval(p5TimerInterval);
             p5TimerDisplay.textContent = "0:00";
-            p5FeedbackEl.textContent = "Time's up! The anomalies overwhelmed the system. Mission failed.";
-            p5FeedbackEl.className = 'feedback-message mt-4 text-center feedback-incorrect';
             p5SubmitEscapeButton.disabled = true;
+            // Show the FDA Form 483 failure screen instead of just showing a message
+            showPuzzle('failure-section');
         }
     }, 1000);
 }
@@ -812,6 +813,11 @@ p5SubmitEscapeButton.addEventListener('click', () => {
 // --- Game Initialization ---
 document.getElementById('start-game-button').addEventListener('click', () => {
     showPuzzle('puzzle1-biometric');
+});
+
+// Add event listener for the restart button
+document.getElementById('restart-game-button').addEventListener('click', () => {
+    showPuzzle('intro-section');
 });
 
 // Initialize first puzzle questions
