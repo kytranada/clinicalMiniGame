@@ -210,7 +210,7 @@
 
         <div id="puzzle5-limericks" class="puzzle-container hidden">
             <h2 class="text-2xl font-semibold yale-blue-text mb-2">Final Challenge: Timed Emergency Response!</h2>
-            <p class="yale-gray-text mb-4">Anomalies detected! Solve the limerick puzzles to identify critical actions. You have <span id="p5-timer" class="font-bold text-red-600">3:00</span> minutes.</p>
+            <p class="yale-gray-text mb-4">Anomalies detected! Solve the limerick puzzles to identify critical actions. You have <span id="p5-timer" class="font-bold text-red-600">5:00</span> minutes.</p>
             <div id="p5-limericks-container">
                 </div>
             <button id="p5-submit-escape" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">Attempt Final Escape!</button>
@@ -260,7 +260,7 @@
                 // Start timer only when puzzle 5 becomes visible
                 if (id === 'puzzle5-limericks') {
                     // Reset and start the timer for puzzle 5
-                    p5TimeRemaining = 3 * 60; // Reset to 3 minutes
+                    p5TimeRemaining = 5 * 60; // Reset to 5 minutes
                     startP5Timer();
                 }
             } else {
@@ -816,7 +816,7 @@
     const p5SubmitEscapeButton = document.getElementById('p5-submit-escape');
     const p5FeedbackEl = document.getElementById('p5-feedback');
     let p5TimerInterval;
-    let p5TimeRemaining = 3 * 60; // 3 minutes in seconds
+    let p5TimeRemaining = 5 * 60; // 5 minutes in seconds
 
     function loadP5Limericks() {
         p5LimericksContainer.innerHTML = '';
@@ -880,7 +880,7 @@
                 });
                 // Don't clear their answers to give them a chance to correct only the wrong ones
                 // Restart the timer for another attempt
-                p5TimeRemaining = 3 * 60; // Reset to 3 minutes
+                p5TimeRemaining = 5 * 60; // Reset to 5 minutes
                 startP5Timer();
                 p5FeedbackEl.textContent = '';
             }, 3000);
