@@ -514,7 +514,10 @@
         { id: 's4', text: "Young adult: persistent sadness, loss of interest, fatigue, poor concentration >6 weeks." }, // Depression
         { id: 's5', text: "Known asthma: increased wheezing, SOB, nighttime awakenings despite inhaler." }, // Asthma
         { id: 's6', text: "Sudden severe joint pain, swelling, redness, especially big toe." }, // Gout
-        { id: 's7', text: "Recurrent, itchy, raised red welts on skin; no consistent trigger." } // Urticaria
+        { id: 's7', text: "Recurrent, itchy, raised red welts on skin; no consistent trigger." }, // Urticaria
+        { id: 's8', text: "Middle-aged adult: episodic chest pain, worsens with exercise, resolves with rest." }, // Angina
+        { id: 's9', text: "Older adult: progressive joint stiffness, pain, reduced mobility in knees and hips." }, // Osteoarthritis
+        { id: 's10', text: "Young female: heavy menstrual bleeding, abdominal pain, uterine fibroids on imaging." } // Uterine Fibroids
     ];
 
     const p2Protocols = [
@@ -524,10 +527,13 @@
         { id: 'pD', text: "YSPsyche-MDD-009: Escitalopram vs. Serenitude for Major Depressive Disorder." },
         { id: 'pE', text: "Skull&Bones-PainFree-MGR01: Topiramate-NG for chronic migraine." },
         { id: 'pF', text: "SterlingRheum-GU-007: Colchicine-Neo for Gout flares." },
-        { id: 'pG', text: "YaleDerm-CU-PatchIt: Topical immunomodulator for chronic urticaria." }
+        { id: 'pG', text: "YaleDerm-CU-PatchIt: Topical immunomodulator for chronic urticaria." },
+        { id: 'pH', text: "Yale-Cardio-IHD-005: CardioStent Plus for stable angina pectoris." },
+        { id: 'pI', text: "OrthoJoint-OA-Yale-021: Hyaluronate-Advanced for moderate osteoarthritis." },
+        { id: 'pJ', text: "Yale-GYN-UFib-008: UltraFocus therapy for symptomatic uterine fibroids." }
     ];
 
-    const p2CorrectMatches = { s1: 'pE', s2: 'pC', s3: 'pA', s4: 'pD', s5: 'pB', s6: 'pF', s7: 'pG' };
+    const p2CorrectMatches = { s1: 'pE', s2: 'pC', s3: 'pA', s4: 'pD', s5: 'pB', s6: 'pF', s7: 'pG', s8: 'pH', s9: 'pI', s10: 'pJ' };
     let p2SelectedSymptom = null;
     let p2SelectedProtocol = null;
     let p2MatchedPairs = 0;
