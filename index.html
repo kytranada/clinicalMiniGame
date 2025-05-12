@@ -170,6 +170,24 @@
                 </p>
                 <p id="p1-final-feedback" class="feedback-message mt-2 text-center"></p>
             </div>
+            
+            <!-- New post-completion area for interactive clue discovery -->
+            <div id="p1-post-completion-area" class="hidden mt-6">
+                <p class="text-center">Database accessed! Now, locate the critical research notes for the final challenge.</p>
+                <div class="flex justify-center mt-4">
+                    <button id="p1-find-clue-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                        Find Research Notes
+                    </button>
+                </div>
+                <div id="p1-revealed-clue" class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg hidden">
+                    <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                    <p class="text-yellow-700">"When consent forms have issues, remember that patient protection comes first. Always verify the documentation timeline!"</p>
+                    <button id="p1-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Protocol Matchup</button>
+                </div>
+            </div>
         </div>
 
         <div id="puzzle2-protocol" class="puzzle-container hidden">
@@ -186,6 +204,24 @@
             </div>
              <div id="p2-feedback" class="feedback-message mt-6 text-center"></div>
             <button id="p2-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Proceed to Data Dilemma</button>
+            
+            <!-- New post-completion area for interactive clue discovery -->
+            <div id="p2-post-completion-area" class="hidden mt-6">
+                <p class="text-center">Protocol matchups confirmed! A storage cabinet appears to contain additional information.</p>
+                <div class="flex justify-center mt-4">
+                    <button id="p2-find-clue-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd" />
+                        </svg>
+                        Open Storage Cabinet
+                    </button>
+                </div>
+                <div id="p2-revealed-clue" class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg hidden">
+                    <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                    <p class="text-yellow-700">"When temperature controls fail for investigational products, immediate quarantine and assessment is the only safe approach."</p>
+                    <button id="p2-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Data Dilemma</button>
+                </div>
+            </div>
         </div>
 
         <div id="puzzle3-data" class="puzzle-container hidden">
@@ -196,6 +232,25 @@
             <div id="p3-feedback-overall" class="feedback-message mt-4 text-center"></div>
             <button id="p3-submit-answers" class="mt-6 w-full yale-blue hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition-colors">Check Answers</button>
             <button id="p3-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Locked Storage</button>
+            
+            <!-- New post-completion area for interactive clue discovery -->
+            <div id="p3-post-completion-area" class="hidden mt-6">
+                <p class="text-center">Data queries resolved! A notification appears on the computer screen: "You have 1 unread message."</p>
+                <div class="flex justify-center mt-4">
+                    <button id="p3-find-clue-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                        </svg>
+                        Check Message
+                    </button>
+                </div>
+                <div id="p3-revealed-clue" class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg hidden">
+                    <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                    <p class="text-yellow-700">"When medication errors occur, patient assessment and safety must always be prioritized over documentation or reporting."</p>
+                    <button id="p3-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Locked Storage</button>
+                </div>
+            </div>
         </div>
 
         <div id="puzzle4-storage" class="puzzle-container hidden">
@@ -206,11 +261,29 @@
             <div id="p4-feedback-overall" class="feedback-message mt-4 text-center"></div>
             <button id="p4-submit-answers" class="mt-6 w-full yale-blue hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition-colors">Verify Storage Protocols</p>
             <button id="p4-next-puzzle" class="hidden mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Initiate Emergency Response</button>
+            
+            <!-- New post-completion area for interactive clue discovery -->
+            <div id="p4-post-completion-area" class="hidden mt-6">
+                <p class="text-center">Storage protocols verified! You notice a security panel with a blinking red light indicating a system alert.</p>
+                <div class="flex justify-center mt-4">
+                    <button id="p4-find-clue-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v-1l1-1 1-1-.257-.257A6 6 0 1118 8zm-6-4a1 1 0 10-2 0v2a1 1 0 102 0V4zm-5 8a1 1 0 00-2 0v2a1 1 0 102 0v-2z" clip-rule="evenodd" />
+                        </svg>
+                        Check Security Alert
+                    </button>
+                </div>
+                <div id="p4-revealed-clue" class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg hidden">
+                    <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
+                    <p class="text-yellow-700">"When data breaches occur, containment and prompt notification to officials are essential first steps to protect participant privacy."</p>
+                    <button id="p4-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Emergency Response</button>
+                </div>
+            </div>
         </div>
 
         <div id="puzzle5-limericks" class="puzzle-container hidden">
             <h2 class="text-2xl font-semibold yale-blue-text mb-2">Final Challenge: Timed Emergency Response!</h2>
-            <p class="yale-gray-text mb-4">Anomalies detected! Solve the limerick puzzles to identify critical actions. You have <span id="p5-timer" class="font-bold text-red-600">5:00</span> minutes.</p>
+            <p class="yale-gray-text mb-4">Anomalies detected! Solve the limerick puzzles to identify critical actions. You have <span id="p5-timer" class="font-bold text-red-600">8:00</span> minutes.</p>
             <div id="p5-limericks-container">
                 </div>
             <button id="p5-submit-escape" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">Attempt Final Escape!</button>
@@ -251,6 +324,42 @@
     ];
 
     function showPuzzle(puzzleId) {
+        // If going back to intro, reset all puzzle states
+        if (puzzleId === 'intro-section') {
+            // Reset Puzzle 1
+            p1CurrentQuestionIndex = 0;
+            p1CorrectAnswers = 0;
+            p1UserAnswers = Array(p1Questions.length).fill(null);
+            p1AnsweredQuestions = Array(p1Questions.length).fill(false);
+            document.querySelectorAll('[id^="p1-light-"]').forEach(light => light.classList.remove('on'));
+            
+            // Reset Puzzle 2
+            p2SelectedSymptom = null;
+            p2SelectedProtocol = null;
+            p2MatchedPairs = 0;
+            
+            // Reset Puzzle 5 timer
+            clearInterval(p5TimerInterval);
+            p5TimeRemaining = 8 * 60;
+
+            // Hide all post-completion areas and reset clue states
+            document.getElementById('p1-post-completion-area').classList.add('hidden');
+            document.getElementById('p1-revealed-clue').classList.add('hidden');
+            document.getElementById('p1-find-clue-button').classList.remove('hidden');
+            
+            document.getElementById('p2-post-completion-area').classList.add('hidden');
+            document.getElementById('p2-revealed-clue').classList.add('hidden');
+            document.getElementById('p2-find-clue-button').classList.remove('hidden');
+            
+            document.getElementById('p3-post-completion-area').classList.add('hidden');
+            document.getElementById('p3-revealed-clue').classList.add('hidden');
+            document.getElementById('p3-find-clue-button').classList.remove('hidden');
+            
+            document.getElementById('p4-post-completion-area').classList.add('hidden');
+            document.getElementById('p4-revealed-clue').classList.add('hidden');
+            document.getElementById('p4-find-clue-button').classList.remove('hidden');
+        }
+        
         puzzles.forEach(id => {
             const el = document.getElementById(id);
             if (id === puzzleId) {
@@ -260,7 +369,7 @@
                 // Start timer only when puzzle 5 becomes visible
                 if (id === 'puzzle5-limericks') {
                     // Reset and start the timer for puzzle 5
-                    p5TimeRemaining = 5 * 60; // Reset to 5 minutes
+                    p5TimeRemaining = 8 * 60; // Reset to 8 minutes
                     startP5Timer();
                 }
             } else {
@@ -494,44 +603,31 @@
                  p1FinalFeedback.textContent = 'Access Granted! The Decker Protein Database is unlocked.';
                  p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct';
                  
-                 // Display clue for puzzle 5
-                 const p1ClueSection = document.createElement('div');
-                 p1ClueSection.innerHTML = `
-                    <div class="mt-6 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                        <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
-                        <p class="text-yellow-700">"When consent forms have issues, remember that patient protection comes first. Always verify the documentation timeline!"</p>
-                    </div>
-                    <button id="p1-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Protocol Matchup</button>
-                 `;
-                 p1FinalCodeEntry.appendChild(p1ClueSection);
-                 
-                 document.getElementById('p1-continue-button').addEventListener('click', () => {
-                     showPuzzle('puzzle2-protocol');
-                 });
+                 // Show the post-completion area instead of directly displaying a clue
+                 document.getElementById('p1-post-completion-area').classList.remove('hidden');
             } else {
                  p1FinalFeedback.textContent = 'Code correct, but you missed some questions. Review your notes! For now, we grant access.';
                  p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-correct'; // Still correct code
                  
-                 // Display clue for puzzle 5 (same as above)
-                 const p1ClueSection = document.createElement('div');
-                 p1ClueSection.innerHTML = `
-                    <div class="mt-6 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                        <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
-                        <p class="text-yellow-700">"When consent forms have issues, remember that patient protection comes first. Always verify the documentation timeline!"</p>
-                    </div>
-                    <button id="p1-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Protocol Matchup</button>
-                 `;
-                 p1FinalCodeEntry.appendChild(p1ClueSection);
-                 
-                 document.getElementById('p1-continue-button').addEventListener('click', () => {
-                     showPuzzle('puzzle2-protocol');
-                 });
+                 // Still show the post-completion area
+                 document.getElementById('p1-post-completion-area').classList.remove('hidden');
             }
         } else {
             p1FinalFeedback.textContent = 'Access Denied. Incorrect code. Please re-check the first letters of the correct answers.';
             p1FinalFeedback.className = 'feedback-message mt-2 text-center feedback-incorrect';
             p1CodeInput.value = ''; // Clear input
         }
+    });
+
+    // Add event listeners for the new clue discovery buttons
+    document.getElementById('p1-find-clue-button').addEventListener('click', () => {
+        // Reveal the clue when the button is clicked
+        document.getElementById('p1-revealed-clue').classList.remove('hidden');
+        document.getElementById('p1-find-clue-button').classList.add('hidden');
+    });
+    
+    document.getElementById('p1-continue-button').addEventListener('click', () => {
+        showPuzzle('puzzle2-protocol');
     });
 
     // --- Puzzle 2: Protocol Matchup ---
@@ -656,20 +752,19 @@
         // Hide the next button to prevent duplicate clicks
         p2NextButton.classList.add('hidden');
         
-        // Display clue for puzzle 5 before proceeding
-        const p2ClueSection = document.createElement('div');
-        p2ClueSection.innerHTML = `
-            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
-                <p class="text-yellow-700">"When temperature controls fail for investigational products, immediate quarantine and assessment is the only safe approach."</p>
-            </div>
-            <button id="p2-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Data Dilemma</button>
-        `;
-        document.getElementById('p2-feedback').after(p2ClueSection);
-        
-        document.getElementById('p2-continue-button').addEventListener('click', () => {
-            showPuzzle('puzzle3-data');
-        });
+        // Show the post-completion area instead of directly displaying a clue
+        document.getElementById('p2-post-completion-area').classList.remove('hidden');
+    });
+    
+    // Add event listeners for the new clue discovery buttons in Puzzle 2
+    document.getElementById('p2-find-clue-button').addEventListener('click', () => {
+        // Reveal the clue when the button is clicked
+        document.getElementById('p2-revealed-clue').classList.remove('hidden');
+        document.getElementById('p2-find-clue-button').classList.add('hidden');
+    });
+    
+    document.getElementById('p2-continue-button').addEventListener('click', () => {
+        showPuzzle('puzzle3-data');
     });
 
 
@@ -789,20 +884,19 @@
         // Hide the next button to prevent duplicate clicks
         p3NextPuzzleButton.classList.add('hidden');
         
-        // Display clue for puzzle 5 before proceeding
-        const p3ClueSection = document.createElement('div');
-        p3ClueSection.innerHTML = `
-            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
-                <p class="text-yellow-700">"When medication errors occur, patient assessment and safety must always be prioritized over documentation or reporting."</p>
-            </div>
-            <button id="p3-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Locked Storage</button>
-        `;
-        document.getElementById('p3-feedback-overall').after(p3ClueSection);
-        
-        document.getElementById('p3-continue-button').addEventListener('click', () => {
-            showPuzzle('puzzle4-storage');
-        });
+        // Show the post-completion area instead of directly displaying a clue
+        document.getElementById('p3-post-completion-area').classList.remove('hidden');
+    });
+    
+    // Add event listeners for the new clue discovery buttons in Puzzle 3
+    document.getElementById('p3-find-clue-button').addEventListener('click', () => {
+        // Reveal the clue when the button is clicked
+        document.getElementById('p3-revealed-clue').classList.remove('hidden');
+        document.getElementById('p3-find-clue-button').classList.add('hidden');
+    });
+    
+    document.getElementById('p3-continue-button').addEventListener('click', () => {
+        showPuzzle('puzzle4-storage');
     });
 
     // --- Puzzle 4: Locked Storage ---
@@ -918,20 +1012,19 @@
         // Hide the next button to prevent duplicate clicks
         p4NextPuzzleButton.classList.add('hidden');
         
-        // Display clue for puzzle 5 before proceeding
-        const p4ClueSection = document.createElement('div');
-        p4ClueSection.innerHTML = `
-            <div class="mt-4 mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                <h3 class="font-bold text-yellow-800">Clue for Final Challenge:</h3>
-                <p class="text-yellow-700">"When data breaches occur, containment and prompt notification to officials are essential first steps to protect participant privacy."</p>
-            </div>
-            <button id="p4-continue-button" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">Continue to Emergency Response</button>
-        `;
-        document.getElementById('p4-feedback-overall').after(p4ClueSection);
-        
-        document.getElementById('p4-continue-button').addEventListener('click', () => {
-            showPuzzle('puzzle5-limericks');
-        });
+        // Show the post-completion area instead of directly displaying a clue
+        document.getElementById('p4-post-completion-area').classList.remove('hidden');
+    });
+    
+    // Add event listeners for the new clue discovery buttons in Puzzle 4
+    document.getElementById('p4-find-clue-button').addEventListener('click', () => {
+        // Reveal the clue when the button is clicked
+        document.getElementById('p4-revealed-clue').classList.remove('hidden');
+        document.getElementById('p4-find-clue-button').classList.add('hidden');
+    });
+    
+    document.getElementById('p4-continue-button').addEventListener('click', () => {
+        showPuzzle('puzzle5-limericks');
     });
 
 
@@ -959,7 +1052,7 @@
     const p5SubmitEscapeButton = document.getElementById('p5-submit-escape');
     const p5FeedbackEl = document.getElementById('p5-feedback');
     let p5TimerInterval;
-    let p5TimeRemaining = 5 * 60; // 5 minutes in seconds
+    let p5TimeRemaining = 8 * 60; // 8 minutes in seconds (changed from 5 minutes)
 
     function loadP5Limericks() {
         p5LimericksContainer.innerHTML = '';
@@ -1023,7 +1116,7 @@
                 });
                 // Don't clear their answers to give them a chance to correct only the wrong ones
                 // Restart the timer for another attempt
-                p5TimeRemaining = 10 * 60; // Reset to 10 minutes
+                p5TimeRemaining = 8 * 60; // Reset to 8 minutes
                 startP5Timer();
                 p5FeedbackEl.textContent = '';
             }, 3000);
