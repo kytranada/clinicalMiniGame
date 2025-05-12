@@ -17,41 +17,52 @@ You are a researcher tasked with fast-tracking the revolutionary "Decker Protein
     *   Answering questions about clinical data handling and EHR navigation.
     *   Testing knowledge of secure storage protocols (GCP, FDA, HIPAA).
     *   A timed emergency response challenge involving solving limerick puzzles.
+*   Interactive clue discovery elements in each puzzle.
 *   Feedback mechanism for puzzle attempts.
 *   Progress tracking within individual puzzles.
+*   Timed challenge at the end.
 *   Success screen upon completing all challenges.
+*   Post-completion survey for user feedback.
 
 ## How to Play
 
-1.  Open the `game.html` file in a web browser.
+1.  Click the link to open the game.
 2.  Read the introductory message and click "Begin the Challenge!".
 3.  Proceed through the puzzles sequentially. Each puzzle requires a specific action (answering questions, matching items, entering a code) to be solved.
 4.  Follow the on-screen instructions for each puzzle. Feedback will be provided on your attempts.
-5.  Successfully completing a puzzle will unlock the next section of the escape room.
-6.  Complete all five puzzles to reach the final success screen.
+5.  After completing each puzzle, explore the environment to discover clues for the final challenge.
+6.  Successfully completing all five puzzles will unlock the success screen and a feedback survey.
 
 ## Puzzles Overview
 
-1.  **Biometric Code Entry:** Answer multiple-choice questions covering basic science and clinical trial concepts. The correct answers' first letters form a code needed for the final entry. Green lights track correct answers.
-2.  **Protocol Matchup:** Match patient symptoms described in tiles to corresponding clinical trial protocols by clicking on them.
-3.  **Data Dilemma:** Answer multiple-choice questions related to clinical data querying, Electronic Health Record (EHR) navigation (simulated), and adverse event grading (CTCAE).
-4.  **Locked Storage:** Answer multiple-choice questions assessing your understanding of secure storage practices for clinical trial documents and data, referencing guidelines like GCP, FDA regulations (21 CFR), and HIPAA.
-5.  **Final Challenge: Timed Emergency Response!:** Solve short limerick riddles describing critical clinical trial incidents. Enter keywords related to the correct emergency response actions within a strict time limit.
+1.  **Biometric Code Entry:** Answer multiple-choice questions covering basic science and clinical trial concepts. The correct answers' first letters form a code needed for the final entry. Green lights track correct answers. After completion, find research notes for a clue to the final challenge.
+
+2.  **Protocol Matchup:** Match patient symptoms described in tiles to corresponding clinical trial protocols by clicking on them. After completion, open a storage cabinet to discover another clue.
+
+3.  **Data Dilemma:** Answer multiple-choice questions related to clinical data querying, Electronic Health Record (EHR) navigation, and adverse event grading (CTCAE). After completion, check a notification message for another clue.
+
+4.  **Locked Storage:** Answer multiple-choice questions assessing your understanding of secure storage practices for clinical trial documents and data, referencing guidelines like GCP, FDA regulations (21 CFR), and HIPAA. After completion, investigate a security alert for another clue.
+
+5.  **Final Challenge: Timed Emergency Response!:** Solve short limerick riddles describing critical clinical trial incidents within an 8-minute time limit. Enter keywords related to the correct emergency response actions to complete the challenge and escape.
 
 ## Technologies Used
 
 *   HTML5
-*   CSS3 (including Tailwind CSS framework)
+*   CSS3 (including Tailwind CSS via CDN)
 *   JavaScript (Vanilla JS for game logic and DOM manipulation)
+*   Google Fonts (Inter font)
 
 ## File Structure
 
-*   `game.html`: Contains the entire game structure, content, styles, and JavaScript logic within a single file.
-*   `logo.png`: Image file used for the Yale logo 
+*   `index.html`: Contains the main game structure and HTML content.
+*   `script.js`: Contains all game logic, puzzle content, and interactive functionality.
+*   `styles.css`: Contains additional custom styling beyond Tailwind CSS.
+*   `logo.png`: Image file used for the Yale logo.
+*   `answer_key.md`: Contains reference solutions and explanations (for administrators).
 
 ## Credits
 
-*   Game design and development: Design based on Kwasi Boatengs requirments for an interactive platform
+*   Game design and development: Design based on Kwasi Boateng's requirements for an interactive platform
 *   Content derived from clinical trial and research concepts.
 *   Uses Tailwind CSS and Inter font (via Google Fonts).
 

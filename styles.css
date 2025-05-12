@@ -1,0 +1,113 @@
+body {
+    font-family: 'Inter', sans-serif; 
+    background-color: #f0f4f8; 
+}
+.yale-blue { background-color: #00356b; }
+.yale-blue-text { color: #00356b; }
+.yale-gray { background-color: #8a8a8a; }
+.yale-gray-text { color: #4a4a4a; }
+.puzzle-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: opacity 0.5s ease-in-out;
+}
+.hidden { display: none; opacity: 0; }
+.visible { display: block; opacity: 1; }
+.question-card {
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.option-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.option-button:hover {
+    background-color: #e2e8f0;
+}
+.option-button.correct {
+    background-color: #c6f6d5; /* Green-200 */
+    border-color: #38a169; /* Green-600 */
+}
+.option-button.incorrect {
+    background-color: #fed7d7; /* Red-200 */
+    border-color: #c53030; /* Red-600 */
+}
+.feedback-message {
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+.feedback-correct {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+.feedback-incorrect {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+.green-light {
+    width: 20px;
+    height: 20px;
+    background-color: #9ca3af; /* Gray-400 */
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    transition: background-color 0.3s;
+}
+.green-light.on {
+    background-color: #4ade80; /* Green-400 */
+}
+.tile {
+    border: 2px solid #00356b; /* Yale Blue */
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    min-width: 150px;
+    text-align: center;
+}
+.tile:hover {
+    transform: translateY(-3px);
+    background-color: #e0e7ff; /* Light blue hover */
+}
+.tile.selected {
+    background-color: #00356b; /* Yale Blue */
+    color: white;
+    border-color: #002147; /* Darker Yale Blue */
+}
+.tile.matched {
+    background-color: #d1fae5; /* Greenish */
+    border-color: #059669;
+    cursor: default;
+    opacity: 0.7;
+}
+.drop-zone {
+    border: 2px dashed #00356b;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.limerick-box {
+    background-color: #fffbeb; /* Light yellow */
+    border-left: 4px solid #facc15; /* Yellow */
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+} 
