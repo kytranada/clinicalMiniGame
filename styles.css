@@ -1,6 +1,7 @@
 body {
     font-family: 'Inter', sans-serif; 
     background-color: #f0f4f8; 
+    transition: background-color 0.3s, color 0.3s;
 }
 .yale-blue { background-color: #00356b; }
 .yale-blue-text { color: #00356b; }
@@ -12,7 +13,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, background-color 0.3s, color 0.3s;
 }
 .hidden { display: none; opacity: 0; }
 .visible { display: block; opacity: 1; }
@@ -21,6 +22,7 @@ body {
     padding: 1.5rem;
     border-radius: 8px;
     margin-bottom: 1rem;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 .option-button {
     display: block;
@@ -30,7 +32,7 @@ body {
     margin-bottom: 0.5rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.3s;
 }
 .option-button:hover {
     background-color: #e2e8f0;
@@ -75,7 +77,7 @@ body {
     margin: 0.5rem;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.2s, background-color 0.2s, color 0.3s;
     min-width: 150px;
     text-align: center;
 }
@@ -103,6 +105,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: border-color 0.3s;
 }
 .limerick-box {
     background-color: #fffbeb; /* Light yellow */
@@ -110,4 +113,145 @@ body {
     padding: 1rem;
     margin-bottom: 1rem;
     font-style: italic;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    color: #e2e8f0;
+    background-color: #1a202c;
+}
+
+.dark-mode .yale-blue-text {
+    color: #4299e1;
+}
+
+.dark-mode .yale-gray-text {
+    color: #a0aec0;
+}
+
+.dark-mode .puzzle-container {
+    background-color: #2d3748;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .question-card {
+    border-color: #4a5568;
+    background-color: #2d3748;
+}
+
+.dark-mode .option-button {
+    border-color: #4a5568;
+    color: #e2e8f0;
+    background-color: #2d3748;
+}
+
+.dark-mode .option-button:hover {
+    background-color: #4a5568;
+}
+
+.dark-mode .option-button.correct {
+    background-color: #276749;
+    border-color: #38a169;
+    color: #f0fff4;
+}
+
+.dark-mode .option-button.incorrect {
+    background-color: #9b2c2c;
+    border-color: #c53030;
+    color: #fff5f5;
+}
+
+.dark-mode .tile {
+    border-color: #4299e1;
+    background-color: #2d3748;
+}
+
+.dark-mode .tile:hover {
+    background-color: #2c5282;
+    color: #e2e8f0;
+}
+
+.dark-mode .tile.selected {
+    background-color: #4299e1;
+    color: #f7fafc;
+    border-color: #2b6cb0;
+}
+
+.dark-mode .tile.matched {
+    background-color: #276749;
+    border-color: #059669;
+    color: #f0fff4;
+}
+
+.dark-mode .limerick-box {
+    background-color: #2a2827;
+    border-left: 4px solid #d69e2e;
+    color: #e2e8f0;
+}
+
+.dark-mode .drop-zone {
+    border-color: #4299e1;
+}
+
+.dark-mode input[type="text"], 
+.dark-mode input[type="radio"] {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+
+.dark-mode input[type="text"]::placeholder {
+    color: #a0aec0;
+}
+
+.dark-mode label {
+    background-color: #2d3748;
+    border-color: #4a5568;
+}
+
+.dark-mode label:hover {
+    background-color: #4a5568;
+}
+
+.dark-mode .feedback-correct {
+    background-color: #276749;
+    color: #f0fff4;
+}
+
+.dark-mode .feedback-incorrect {
+    background-color: #9b2c2c;
+    color: #fff5f5;
+}
+
+.dark-mode p {
+    color: #e2e8f0;
+}
+
+.dark-mode h2, .dark-mode h3 {
+    color: #4299e1;
+}
+
+/* Toggle Button Styles */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #00356b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .theme-toggle {
+    background-color: #4299e1;
 } 

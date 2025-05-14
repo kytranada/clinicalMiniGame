@@ -745,7 +745,7 @@ function loadP5Limericks() {
     p5LimericksContainer.innerHTML = '';
     p5Limericks.forEach((item, index) => {
         const limerickEl = document.createElement('div');
-        limerickEl.classList.add('mb-6', 'p-4', 'border', 'border-gray-300', 'rounded-lg', 'bg-white');
+        limerickEl.classList.add('mb-6', 'p-4', 'border', 'border-gray-300', 'rounded-lg');
         limerickEl.innerHTML = `
             <div class="limerick-box">${index + 1}. ${item.limerick}</div>
             <input type="text" id="p5ans${index}" class="mt-2 border border-gray-300 p-2 rounded-lg w-full" placeholder="Enter keyword response...">
@@ -810,6 +810,45 @@ p5SubmitEscapeButton.addEventListener('click', () => {
     }
 });
 
+// --- Dark Mode Toggle Functionality ---
+const themeToggle = document.getElementById('theme-toggle');
+const darkIcon = document.getElementById('dark-icon');
+const lightIcon = document.getElementById('light-icon');
+const body = document.body;
+
+// Check for saved theme preference
+function loadThemePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        enableDarkMode();
+    }
+}
+
+// Function to enable dark mode
+function enableDarkMode() {
+    body.classList.add('dark-mode');
+    darkIcon.classList.add('hidden');
+    lightIcon.classList.remove('hidden');
+    localStorage.setItem('darkMode', 'enabled');
+}
+
+// Function to disable dark mode
+function disableDarkMode() {
+    body.classList.remove('dark-mode');
+    darkIcon.classList.remove('hidden');
+    lightIcon.classList.add('hidden');
+    localStorage.setItem('darkMode', 'disabled');
+}
+
+// Toggle dark mode
+themeToggle.addEventListener('click', () => {
+    if (body.classList.contains('dark-mode')) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
+    }
+});
+
 // --- Game Initialization ---
 document.getElementById('start-game-button').addEventListener('click', () => {
     showPuzzle('puzzle1-biometric');
@@ -829,4 +868,7 @@ window.onload = () => {
     loadP3Questions();
     loadP4Questions();
     loadP5Limericks(); // Load the limericks but don't start the timer
+    
+    // Load theme preference
+    loadThemePreference();
 }; 
